@@ -1,8 +1,8 @@
 This is a program to place filters on your BITMAP images. Filters included:
-  Grayscale: Shifts image to Grayscale (use -g)
-  Reflected: Vertical mirror image (use -r)
-  Blur: Get a slightly more blurred version of your image (use -b)
-  Edges: Clearly identify the edges within your image where colors change (use -e)
+- Grayscale: Shifts image to Grayscale (use -g)
+- Reflected: Vertical mirror image (use -r)
+- Blur: Get a slightly more blurred version of your image (use -b)
+- Edges: Clearly identify the edges within your image where colors change (use -e)
   
 How to use?
 1. Place your image within the "images" sub-folder
