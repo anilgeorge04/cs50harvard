@@ -1,0 +1,5 @@
+# ignore folder keys and texts
+# this is a set of sample text files used for testing my software
+# feel free to load with any text values
+keys/*
+texts/*
