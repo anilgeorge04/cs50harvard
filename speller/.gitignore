@@ -3,6 +3,8 @@
 # feel free to load with any text values
 keys/*
 texts/*
+!texts/lalaland.txt
+!texts/cat.txt
 
 # binary file generated at time of running
 speller
