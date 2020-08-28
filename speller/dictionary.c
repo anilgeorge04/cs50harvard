@@ -1,7 +1,10 @@
 // Implements a dictionary's functionality
 
 #include <stdbool.h>
+#include <stdio.h>
 #include <string.h>
+#include <ctype.h>
+#include <stdlib.h>
 
 #include "dictionary.h"
 
@@ -10,140 +13,180 @@ typedef struct node
 {
     char word[LENGTH + 1];
     struct node *next;
-}
-node;
+} node;
 
 // Number of buckets in hash table
-const unsigned int N = 1;
+const unsigned int N = 70000;
 
 // Hash table
 node *table[N];
 
-// Words loaded in Hash table
-unsigned int word_size = 0;
+// Count of words from dictionary loaded into hash table
+unsigned int words_dict = 0;
 
 // Returns true if word is in dictionary else false
 bool check(const char *word)
 {
-    int hash_code = hash(word);
-    if (hash_code == N)
+    node *cursor = NULL;
+    char low_word[LENGTH + 1];
+    int i = 0;
+
+    // Lower case the word to hash
+    for (; word[i] != '\0'; i++)
     {
-        // Could not generate hash code for the word. Exit CHECK function.
-        printf("Check error: Cannot generate Hash code for %s\n", word);
+        low_word[i] = tolower(word[i]);
+    }
+    low_word[i] = '\0';
+
+    // Hash the lower case word
+    int hash_index = hash(low_word);
+    if (hash_index >= N || hash_index < 0)
+    {
+        printf("Check error: Invalid hash code generated for %s.\n", word);
         return false;
     }
 
-    // Check for word with cursor node to traverse
-    node *cursor = malloc(sizeof(node));
-    if (cursor == NULL)
+    // check if word (lowered case) is present in dictionary (which contains lower case words)
+    cursor = table[hash_index];
+    while (cursor != NULL)
     {
-        // Unable to create node. Exit CHECK function.
-        printf("Check error: Cannot create new node\n");
-        return false;
-    }
-    cursor->next = table[hash_code]->next;
-    while(cursor->next != NULL)
-    {
-        cursor = cursor->next;
-        if (strcasecmp(cursor->word, word) == 0)
+        if (strcmp(cursor->word, low_word) == 0)
         {
+            // word is in dictionary
             return true;
         }
+        cursor = cursor->next;
     }
-
-    // Did not find in dictionary
-    printf("Check: Not present in Dictionary\n");
-    free(cursor);
+    // word is not in dictionary
     return false;
 }
 
 // Hashes word to a number
 unsigned int hash(const char *word)
 {
-    int hash_code = 0;
-    // TODO
-    return hash_code;
 
-    // Failed to create hash code
-    return N;
+    // Apply hash function on word
+    // Source 1: https://www.youtube.com/watch?v=jtMwp0FqEcg
+    // Source 2: https://computinglife.wordpress.com/2008/11/20/why-do-hash-functions-use-prime-numbers/
+    int hash_index = 7;
+    for (int i = 0; i < strlen(word); i++)
+    {
+        hash_index = hash_index * 31 + word[i];
+    }
+
+    if (hash_index == 7)
+    {
+        printf("Hash error: Did not enter the hash function loop\n");
+        return N;
+    }
+
+    // Else return generated deterministic hash index
+    return hash_index % N;
 }
 
 // Loads dictionary into memory, returning true if successful else false
 bool load(const char *dictionary)
 {
-    // Open dictionary file
-    FILE *dictionary_ptr = fopen(dictionary, "r");
-    if (dictionary_ptr == NULL)
+    int hash_index = N;
+    char load_word[LENGTH + 1];
+
+    // Initialize hash table with null pointers
+    // This is to ensure random values don't get picked up
+    for (int i = 0; i < N; i++)
     {
-        // Could not open dictionary file. Exit LOAD function.
-        printf("Load error: Dictionary file not opening\n");
+        table[i] = NULL;
+    }
+
+    // Open dictionary file
+    FILE *dict_ptr = fopen(dictionary, "r");
+    if (dict_ptr == NULL)
+    {
+        printf("Load error: Cannot open dictionary file.\n");
         return false;
     }
 
-    // Load one word at a time to hash table
-    char load_word[LENGTH + 1];
-    unsigned int hash_code = 0;
-    while(fscanf(dictionary, "%s", load_word) != EOF)
+    // Read strings from dictionary one at a time
+    while (fscanf(dict_ptr, "%s", load_word) != EOF)
     {
-        // Create new node
-        node *n = malloc(sizeof(node));
-        if (n == NULL)
+        // Create a new node for each word
+        node *new_node = malloc(sizeof(node));
+        if (new_node == NULL)
         {
-            // Unable to create node. Exit LOAD function.
-            printf("Load error: Cannot create new node\n");
+            printf("Load error: Cannot create new node.\n");
+            unload();
             return false;
         }
-        strcpy(n->word, load_word);
-        n->next = NULL;
+        strcpy(new_node->word, load_word);
+        new_node->next = NULL;
 
-        // Hash word to load to table
-        hash_code = hash(load_word);
-        if (hash_code == N)
+        // Hash word to obtain an index position in hash table
+        hash_index = hash(load_word);
+
+        if (hash_index >= N || hash_index < 0)
         {
-            // Could not generate hash code for the word. Exit LOAD function.
-            printf("Load error: Cannot generate Hash code for %s\n", load_word);
+            printf("Load error: Invalid hash code generated for %s.\n", load_word);
+            unload();
             return false;
         }
 
-        // Insert node in hash code location
-        n->next = table[hash_code]->next;
-        table[hash_code]->next = n;
-        word_size++;
+        // Valid hash index generated
+        // Load word (new_node) into this index position in hash table
+        if (table[hash_index] == NULL)
+        {
+            // first word in this index location, point directly to new node
+            table[hash_index] = new_node;
+        }
+        else
+        {
+            // a word exists in this index location, add as head of linked list
+            new_node->next = table[hash_index];
+            table[hash_index] = new_node;
+        }
+        words_dict++;
     }
+
+    // Check if there was an error
+    if (ferror(dict_ptr))
+    {
+        fclose(dict_ptr);
+        printf("Load error: Cannot open dictionary as file\n");
+        return false;
+    }
+
+    // Close dictionary file
+    fclose(dict_ptr);
+
+    // Loaded dictionary successfully
     return true;
 }
 
 // Returns number of words in dictionary if loaded else 0 if not yet loaded
 unsigned int size(void)
 {
-    return word_size;
+    // Counted during loading dictionary
+    return words_dict;
 }
 
 // Unloads dictionary from memory, returning true if successful else false
 bool unload(void)
 {
-    node *cursor = malloc(sizeof(node));
-    node *tmp = malloc(sizeof(node));
-    if (cursor == NULL || tmp == NULL)
-    {
-        // Unable to create node. Exit UNLOAD function.
-        printf("Unload error: Cannot create traverse node\n");
-        return false;
-    }
+    // Free memory that was dynamically allocated for hash table
+    node *cursor = NULL;
+    node *tmp = NULL;
 
     for (int i = 0; i < N; i++)
     {
-
-
-        // Unload successful
-        free(cursor);
-        free(tmp);
-        return true;
+        cursor = table[i];
+        tmp = table[i];
+        while (cursor != NULL)
+        {
+            cursor = cursor->next;
+            free(tmp);
+            tmp = cursor;
+        }
     }
 
-    free(cursor);
-    free(tmp);
-
-    // Could not unload hash table
-    return false;
+    // Unload successful
+    return true;
+    // run valgrind to test for memory leaks
 }
