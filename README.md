@@ -1,14 +1,16 @@
 # CS50
 
-This repository contains my coursework for <b>CS50</b> - Harvard University's Introduction to Computer Science course
-(highly recommended!) taught by Professor David J. Malan.
+This repository contains some of my projects submitted for <b>CS50</b> - Harvard University's Introduction to Computer Science course taught by Professor David J. Malan.
+*I highly recommend the course*
 
-Note to CS50 students: visit this folder ONLY after you make your submissions.
+<b>Design</b>
 
-<b>Project Design</b>
-1. [Request] Problem definition and details are present in Problem Sets for each week under: https://cs50.harvard.edu/x/2020/
-2. [Model] The projects here are built mainly on C and Python on the CS50 Sandbox and IDE.
-3. [View] Each file in this folder is my submission for the respective Problem Set.
+- Problem definition is detailed in [Problem Sets](https://cs50.harvard.edu/x/2020/) section for each week.
+- The projects here are built primarily using C and Python.
 
-<b>Feedback</b>
 Please feel free to write to me for any feedback.
+
+---
+*Special Note to CS50 students:*
+
+*Please follow the Academic Honesty <a href=https://cs50.harvard.edu/x/2020/honesty/>Guide</a> from CS50. Go over what's reasonable and what's not within the policy before going into any folder and sub-folder in this repository. You'll thank yourself for it later.*
