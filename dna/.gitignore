@@ -1,0 +1,5 @@
+# ignore sample files used to run program
+sequences/*.txt
+
+# keeping 1 sample for understanding
+!sequences/1.txt
