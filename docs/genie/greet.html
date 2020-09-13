@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="styles.css" rel="stylesheet">
+    <script src="greet.js"></script>
+    <title>🖖 Greeting</title>
+</head>
+
+<body>
+    <h1>🖖 Welcome</h1>
+    <div>
+        <form onsubmit="greet(); return false;">
+            <input type="text" id="name" class = "textbox" placeholder="Hi, what is your name?">
+            <button type="submit" class="button-std" onclick="document.getElementById('disp-msg').style.visibility='visible'">Greet me!</button>
+            <button type="reset" class="button-std" onclick="document.getElementById('disp-msg').style.visibility='hidden'">Reset</button>
+        </form>
+    </div>
+    <p id="disp-msg" class="disp-fail" style="visibility: hidden;">Please enter your name</p>
+    <footer>Take me <a href="index.html">home</a> to my other wishes.</footer>
+</body>
+
+</html>

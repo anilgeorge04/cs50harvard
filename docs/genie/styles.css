@@ -1,0 +1,51 @@
+/* Style sheet */
+body {
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    padding: 20px;
+}
+
+div {
+    padding: 20px;
+    margin: 5px;
+}
+
+footer {
+    font-size: small; 
+    color: slategrey;
+}
+
+.hide-it {
+    visibility: hidden;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.textbox {
+    padding: 5px;
+    border-radius: 5px;
+    width: 200px;
+    margin: 5px;
+}
+
+.button-std {
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.disp-fail {
+    font-size: small; 
+    color: red;
+}
+
+.disp-success {
+    font-size: medium;
+    color: black;
+}
+
+#guess {
+    font-size: x-large;
+}
