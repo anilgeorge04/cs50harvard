@@ -1,10 +1,12 @@
-var errormsg = document.getElementById('error');
+var errormsg = document.querySelector('#errormsg');
 
-document.getElementById('form').onsubmit = function () {
-    if (document.getElementById('query') == "") {
-        errormsg.innerHTML = "Please enter a query";
+document.querySelector('form').onsubmit = function () {
+    if (document.getElementById('query').value == "") {
+        errormsg.textContent = "Can't read your mind here 😞";
+        window.setTimeout(function () { alert('🤙 Use words master'); }, 1500);
+        return false;
     }
     else {
-        errormsg.innerHTML = "";
+        errormsg.textContent = "";
     }
 }

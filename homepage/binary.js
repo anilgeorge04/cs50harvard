@@ -5,28 +5,40 @@ var guess = 0, count = 0, start = 1, end = 249;
 // Turn display on
 function startGame() {
     document.getElementById('game-field').style.visibility = 'visible';
-    guess = selectguide.value;
-    // display(guess);
+    guess = guessNum(selectguide.value);
+    display(guess);
 }
 
-// function guessNum(guideVal) {
-//     // successMsg = "Success 🎆 in " + count-1 + "guesses!"
-//         document.getelementbyid('guess').innerhtml = guideVal;
-//     count++;
-//     if (guideVal == "") { return 125; }
-//     else if (guideVal == "go-high") { start = guess + 1; }
-//     else if (guideVal == "go-low") { end = guess - 1; }
-//     else { return 100; }
-//     guess = Math.round((start + end) / 2);
-//     return guess;
-// }
+// Restart game
+function resetGame() {
+    document.getElementById('game-field').style.visibility = 'hidden';
+    guess = 0;
+    count = 0;
+    start = 1;
+    end = 249;
+}
 
-// selectguide.onchange = function () {
-//     displayfield.innerHTML = "change";
-//     // guess = guessnum(this.value);
-//     // display(guess);
-// }
+// Guess number using drop-down
+function guessNum(guideVal) {
+    count++;
+    if (guideVal == "") { return 125; }
+    else if (guideVal == "go-high") { start = guess + 1; }
+    else if (guideVal == "go-low") { end = guess - 1; }
+    else {
+        if (count == 1) { alert("Single guess, wow!"); }  
+        else { alert(count-1+" guesses! Success 🎆"); }
+        resetGame();
+    }
+    guess = Math.round((start + end) / 2);
+    return guess;
+}
 
-// function display(displayGuess) {
-//     document.getelementbyid('guess').innerhtml = displayGuess;
-// }
+selectguide.onchange = function () {
+    guess = guessNum(this.value);
+    display(guess);
+    selectguide.selectedIndex = 0;
+}
+
+function display(displayGuess) {
+    displayfield.innerHTML = displayGuess;
+}

@@ -6,7 +6,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link href="styles.css" rel="stylesheet">
-        <script src="binary.js"></script>
+        <script defer src="binary.js"></script>
         <title>🔮 Mind Reader</title>
     </head>
     <body>
@@ -15,17 +15,17 @@
         <p>I will guess your number in under 8 tries. Ready?</p>
         <form>
             <button type="button" class="button-std" style="background-color: lightseagreen" onclick="startGame(); return false;"><b>Play Game!</b></button>
-            <button type="reset" class="button-std" onclick="document.getElementById('game-field').style.visibility='hidden';">Restart</button>
+            <button type="reset" class="button-std" id="reset" onclick="resetGame(); return false;">Restart</button>
             <div id="game-field" class="hide-it">
                 <p id="guess-text">
-                    Click on an option to tell me how I'm doing. My Guess:<br>
+                    Click on an option to tell me how I'm doing. <br>My Guess:
                 </p>
-                <div id="guess">" "</div>
+                <div id="guess"></div>
                 <select name="guide" id="guide" size="3" class="textbox" style="font-size:large; width: fit-content;">
                     <option value="" selected disabled hidden>--Complete--</option>
                     <option value="go-high">⬆️ Go higher</option>
                     <option value="correct">✔️ Correct</option>
-                    <option value="go-high">⬆️ Go higher</option>
+                    <option value="go-low">⬆️ Go lower</option>
                 </select>
             </div>
         </form>
