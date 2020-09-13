@@ -5,18 +5,20 @@
         <!-- Required meta tags -->
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
         <link href="styles.css" rel="stylesheet">
         <script defer src="google.js"></script>
         <title>🔍Search</title>
     </head>
     <body>
-        <h1>🔍 I will find things for you</h1>
-        <h3>G<i>enie</i>oogle at your service master. Search for anything under the sky!</h3>
-        <form action="https://www.google.com/search?" method="GET" target="_isblank">
+        <h2>🔍 I will find things for you</h2>
+        <h3>G<i>enie</i>oogle at your service master.<br></h3> 
+        <p>Search for anything under the sky!</p>
+        <form action="https://www.google.com/search?" method="GET" target="_blank">
             <input name = "q" type="text" id="query" class = "textbox" placeholder="Search here">
             <input type="submit" value="Search" class = "button-std">
-        </form>
-        <p id="errormsg" class="disp-fail"></p>
+        </form><br>
+        <p id="errormsg" class="alert alert-warning" style = "visibility: hidden;"></p>
         <br>
         <footer>Take me <a href="index.html">home</a> to my other wishes.</footer>
     </body>
