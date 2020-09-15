@@ -6,8 +6,8 @@ selectpage.onchange = function () {
 }
 
 function redirect(goto) {
-    var conf = confirm("Click OK to go to your magical wish");
-    if (conf && goto != '') {
+    // var conf = confirm("Click OK to go to your magical wish");
+    if (goto != '') {
         window.location = goto;
     }
 }
